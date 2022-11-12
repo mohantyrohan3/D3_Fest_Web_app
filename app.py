@@ -226,3 +226,6 @@ if st.button("Intercorrelation Heatmap"):
 # Footer
 
 st.write("---")
+
+thnk=load_lottieurl('https://assets1.lottiefiles.com/packages/lf20_sqpjokxl.json')
+st_lottie(thnk,height=300)
