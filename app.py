@@ -3,6 +3,10 @@ import requests
 from streamlit_lottie import st_lottie
 import streamlit.components.v1 as components
 import pickle
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+#import numpy as np
 # """Styling Fonts"""
 
 # streamlit_style = """
@@ -15,6 +19,73 @@ import pickle
 # 			</style>
 # 			"""
 # st.markdown(streamlit_style, unsafe_allow_html=True)
+
+# -- Reading Dataset --
+df=pd.read_csv('train.csv')
+final_df=pd.read_csv("final_train.csv")
+
+# Side Bar
+
+ans=st.sidebar.selectbox("Select Graph",("Correlaton Map","Dist Plot"))
+if ans== 'Correlaton Map':
+    cor=st.sidebar.selectbox("Select Parameters for Correlation",("Rain","Wind Speed","Pressure"))
+    if cor=="Rain":
+        y = final_df['PM2.5']
+        x = final_df['rain']
+        correlation = y.corr(x)
+        plt.title('Correlation between rain and PM 2.5')
+        plt.xlim(-1, 50)
+        plt.ylim(-10, 1000)
+        f=plt.scatter(x, y)
+        plt.plot()
+        f=f.figure
+        st.sidebar.pyplot(f)
+    if cor=="Wind Speed":
+        y = final_df['PM2.5']
+        x = final_df['wind_speed']
+        correlation = y.corr(x)
+        plt.title('Correlation between Wind Speed and PM 2.5')
+        plt.xlim(0,10)
+        plt.ylim(0, 1000)
+        f=plt.scatter(x, y)
+        plt.plot()
+        f=f.figure
+        st.sidebar.pyplot(f)
+    if cor=="Pressure":
+        y = final_df['PM2.5']
+        x = final_df['pressure']
+        correlation = y.corr(x)
+        plt.title('Correlation between Pressure and PM 2.5')
+        plt.xlim(975,1050)
+        plt.ylim(-1, 1000)
+        f=plt.scatter(x, y)
+        plt.plot()
+        f=f.figure
+        st.sidebar.pyplot(f)
+
+
+
+elif ans=="Dist Plot":
+    dis=st.sidebar.selectbox("Select Parameters for Dist Plot",("Wind Speed","Rain","Temperature"))
+    if dis=="Wind Speed":
+        f=sns.distplot(final_df['wind_speed'])
+        f=f.figure
+        st.sidebar.pyplot(f)
+    if dis=="Rain":
+        f=sns.distplot(final_df['rain'])
+        f=f.figure
+        st.sidebar.pyplot(f)
+    if dis=="Temperature":
+        f=sns.distplot(final_df['temperature'])
+        f=f.figure
+        st.sidebar.pyplot(f)
+
+
+
+
+
+
+
 
 # """URL for Animation"""
 def load_lottieurl(url):
@@ -73,17 +144,6 @@ def predict(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 st.title("PM  2.5 Prediction")
 option = st.selectbox(
     'How would you like the model to be represented ?',
@@ -106,21 +166,27 @@ if(option=="Machine Learning"):
         ans=predict(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir)
         ans=int(ans[0])
         st.success('The PM2.5 is '+str(ans))
+        st.write("Details about the Model")
+        st.write(" Model Used :  Random Forest Regressor")
         #st.write("The PM2.5 is ",ans[0])
     else:
         pass
 
 elif(option=="Deep Learning"):
-    year=st.selectbox("Select a year",('2013','2014','2015','2016','2017'))
-    month=st.slider("month",min_value=1,max_value=12,step=1)
-    day=st.slider("day",min_value=1,max_value=31,step=1)
-    hour=st.slider("hours",min_value=0,max_value=23,step=1)
-    temp=st.slider("temperature",min_value=-18,max_value=42,step=1)
-    pressure=st.slider("pressure",min_value=0,max_value=1000,step=1)
-    rain=st.slider("rain",min_value=0,max_value=72,step=1)
-    wind_speed=st.slider("wind-speed",min_value=0,max_value=10,step=1)
-    wind_dir=st.selectbox('Select the direction of wind',('E','ENE','ESE','N','NE','NNE','NNW','NW','S','SE','SSE','SSW','SW','W','WNW','WSW'))
-    pr=st.button("Predict")
+    #https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json coming soon
+    #https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json
+    lottie_coding_dl=load_lottieurl('https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json')
+    st_lottie(lottie_coding_dl,height=300)
+    #year=st.selectbox("Select a year",('2013','2014','2015','2016','2017'))
+    #month=st.slider("month",min_value=1,max_value=12,step=1)
+    #day=st.slider("day",min_value=1,max_value=31,step=1)
+    #hour=st.slider("hours",min_value=0,max_value=23,step=1)
+    #temp=st.slider("temperature",min_value=-18,max_value=42,step=1)
+    #pressure=st.slider("pressure",min_value=0,max_value=1000,step=1)
+    #rain=st.slider("rain",min_value=0,max_value=72,step=1)
+    #wind_speed=st.slider("wind-speed",min_value=0,max_value=10,step=1)
+    #wind_dir=st.selectbox('Select the direction of wind',('E','ENE','ESE','N','NE','NNE','NNW','NW','S','SE','SSE','SSW','SW','W','WNW','WSW'))
+    #pr=st.button("Predict")
     # if():
     #     st.sucess()
     # else:
@@ -142,15 +208,21 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.write("---")
 
 # """Graph Part"""
+st.subheader("PM2.5 Dataset")
+st.write(df)
+
+
+if st.button("Intercorrelation Heatmap"):
+    st.subheader("Intercorrelation Heatmap")
+    corrmat = df.corr()
+    top_corr_feature = corrmat.index
+    plt.figure(figsize = (5,5))
+    g = sns.heatmap(df[top_corr_feature].corr(), annot=True,cmap='viridis')
+    g=g.figure
+    st.pyplot(g)
 
 
 
+# Footer
 
-
-
-
-
-
-
-
-    
+st.write("---")
