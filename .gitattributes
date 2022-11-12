@@ -1,3 +1,4 @@
 *.ext filter=lfs diff=lfs merge=lfs -text
 *.pickle filter=lfs diff=lfs merge=lfs -text
 tuned_model2013 filter=lfs diff=lfs merge=lfs -text
+tuned_model2015 filter=lfs diff=lfs merge=lfs -text
