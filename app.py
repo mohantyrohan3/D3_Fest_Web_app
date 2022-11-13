@@ -6,27 +6,16 @@ import pickle
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-#import numpy as np
-# """Styling Fonts"""
 
-# streamlit_style = """
-# 			<style>
-# 			@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
-
-# 			html, body, [class*="css"]  {
-# 			font-family: 'Roboto', sans-serif;
-# 			}
-# 			</style>
-# 			"""
-# st.markdown(streamlit_style, unsafe_allow_html=True)
 
 # -- Reading Dataset --
 df=pd.read_csv('train.csv')
 final_df=pd.read_csv("final_train.csv")
 
-# Side Bar
 
-ans=st.sidebar.selectbox("Select Graph",("Correlaton Map","Dist Plot"))
+
+# Side Bar
+ans=st.sidebar.selectbox("Select Graph",("Correlation Map","Dist Plot"))
 if ans== 'Correlaton Map':
     cor=st.sidebar.selectbox("Select Parameters for Correlation",("Rain","Wind Speed","Pressure"))
     if cor=="Rain":
@@ -96,6 +85,10 @@ def load_lottieurl(url):
 
 lottie_coding=load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_EyJRUV.json")
 
+
+
+
+
 # """Introduction Section"""
 with st.container():
     components.html(""" 
@@ -126,8 +119,10 @@ with st.container():
 
 st.write("---")
 
-# """Prediction Part"""
 
+
+
+# """Prediction Part"""
 wind={'E':7,'ENE':8,'ESE':9,'N':10,'NE':11,'NNE':12,'NNW':13,'NW':14,'S':15,'SE':16,'SSE':17,'SSW':18,'SW':19,'W':20,'WNW':21,'WSW':22}
 
 def predict_old(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir):
@@ -195,24 +190,9 @@ if(option=="Machine Learning"):
         pass
 
 elif(option=="Deep Learning"):
-    #https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json coming soon
-    #https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json
+    
     lottie_coding_dl=load_lottieurl('https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json')
     st_lottie(lottie_coding_dl,height=300)
-    #year=st.selectbox("Select a year",('2013','2014','2015','2016','2017'))
-    #month=st.slider("month",min_value=1,max_value=12,step=1)
-    #day=st.slider("day",min_value=1,max_value=31,step=1)
-    #hour=st.slider("hours",min_value=0,max_value=23,step=1)
-    #temp=st.slider("temperature",min_value=-18,max_value=42,step=1)
-    #pressure=st.slider("pressure",min_value=0,max_value=1000,step=1)
-    #rain=st.slider("rain",min_value=0,max_value=72,step=1)
-    #wind_speed=st.slider("wind-speed",min_value=0,max_value=10,step=1)
-    #wind_dir=st.selectbox('Select the direction of wind',('E','ENE','ESE','N','NE','NNE','NNW','NW','S','SE','SSE','SSW','SW','W','WNW','WSW'))
-    #pr=st.button("Predict")
-    # if():
-    #     st.sucess()
-    # else:
-    #     st.warning()
 else:
     st.write("You Haven't Selected Any Option")
 
@@ -228,6 +208,8 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 st.write("---")
+
+
 
 # """Graph Part"""
 st.subheader("PM2.5 Dataset")
@@ -245,8 +227,9 @@ if st.button("Intercorrelation Heatmap"):
 
 
 
-# Footer
 
+
+# Footer
 st.write("---")
 
 thnk=load_lottieurl('https://assets1.lottiefiles.com/packages/lf20_sqpjokxl.json')
