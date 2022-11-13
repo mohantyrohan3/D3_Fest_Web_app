@@ -18,4 +18,13 @@ of every hour of the days in the years from 2013 to 2017.
 
 ---
 
-You can access the deployed project by clicking <a href="https://mohantyrohan3-d3-fest-web-app-app-bazbvq.streamlit.app/"> here </a>.
+## Details
+
+This Repo contains an Pm2.5 Jupyter notebook file which contains code for Feature Engineering , Eda , Machine Learning Model Building and finally Cross Validation and Hyper Parameter Tuning . Check out <a href='https://github.com/mohantyrohan3/D3_Fest_Web_app/blob/master/Pm(2.5).ipynb'> here <a/>
+
+This Repo contains an app.py where we made a website from scratch using Streamlit library where also we deployed our Ml models Check out <a href='https://github.com/mohantyrohan3/D3_Fest_Web_app/blob/master/app.py'>here <a/>
+
+<a href='https://mohantyrohan3-d3-fest-web-app-app-hy8ogw.streamlit.app/'>You can access the deployed project by clicking here .<a/>
+
+Contributers - Prajna Jeet Ojha , Abhipsha Dash , Sai Simran Patro , Rohan Kumar Mohanty (Team - The Nova )
+
