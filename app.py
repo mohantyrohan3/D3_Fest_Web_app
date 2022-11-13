@@ -130,8 +130,21 @@ st.write("---")
 
 wind={'E':7,'ENE':8,'ESE':9,'N':10,'NE':11,'NNE':12,'NNW':13,'NW':14,'S':15,'SE':16,'SSE':17,'SSW':18,'SW':19,'W':20,'WNW':21,'WSW':22}
 
-def predict(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir):
+def predict_old(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir):
     model = pickle.load(open('model'+year, 'rb'))
+
+    inp=[float(month),float(day),float(hour),float(temp),float(pressure),float(rain),float(wind_speed)]
+    for i in range(0,16):
+        inp.append(0)
+    
+    inp[wind[wind_dir]]=1
+
+    ans=model.predict([inp])
+    return ans
+
+
+def predict_new(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir):
+    model = pickle.load(open('tuned_model'+year, 'rb'))
 
     inp=[float(month),float(day),float(hour),float(temp),float(pressure),float(rain),float(wind_speed)]
     for i in range(0,16):
@@ -150,6 +163,7 @@ option = st.selectbox(
     ( 'Pick One ','Machine Learning', 'Deep Learning'))
 
 if(option=="Machine Learning"):
+    d=st.selectbox("Select Before or After Tuning ",("Not Tuned Model","Tuned Model",))
     year=st.selectbox("Select a year",('2013','2014','2015','2016','2017'))
     month=st.slider("month",min_value=1,max_value=12,step=1)
     day=st.slider("day",min_value=1,max_value=31,step=1)
@@ -163,11 +177,19 @@ if(option=="Machine Learning"):
     
     pr=st.button("Predict")
     if(pr):
-        ans=predict(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir)
-        ans=int(ans[0])
-        st.success('The PM2.5 is '+str(ans))
-        st.write("Details about the Model")
-        st.write(" Model Used :  Random Forest Regressor")
+        if d=='Not Tuned Model':
+            ans=predict_old(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir)
+            ans=int(ans[0])
+            st.success('The PM2.5 is '+str(ans))
+            st.write("Details about the Model")
+            st.write(" Model Used :  Random Forest Regressor")
+        
+        else:
+            ans=predict_new(year,month,day,hour,temp,pressure,rain,wind_speed,wind_dir)
+            ans=int(ans[0])
+            st.success('The PM2.5 is '+str(ans))
+            st.write("Details about the Model")
+            st.write(" Model Used :  Random Forest Regressor")
         #st.write("The PM2.5 is ",ans[0])
     else:
         pass
