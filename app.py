@@ -16,7 +16,7 @@ final_df=pd.read_csv("final_train.csv")
 
 # Side Bar
 ans=st.sidebar.selectbox("Select Graph",("Correlation Map","Dist Plot"))
-if ans== 'Correlaton Map':
+if ans== 'Correlation Map':
     cor=st.sidebar.selectbox("Select Parameters for Correlation",("Rain","Wind Speed","Pressure"))
     if cor=="Rain":
         y = final_df['PM2.5']
